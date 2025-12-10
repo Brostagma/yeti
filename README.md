@@ -12,6 +12,15 @@
 * **Auto-Update:** Integrated GitHub Releases support for seamless updates.
 * **Polyglot Ready:** Designed to support Python/C++ sidecars for heavy lifting.
 
+## 📥 Download & Install
+
+You can download the latest version of **YETI** from the [Releases Page](https://github.com/Brostagma/yeti/releases).
+
+1. Go to the **Releases** page.
+2. Click on the latest version (e.g., `v0.1.0`).
+3. Download the **`Yeti-Setup-x.x.x.exe`** file.
+4. Run the installer and enjoy! 🚀
+
 ## 🛠️ Tech Stack
 
 * **Core:** [Electron](https://www.electronjs.org/)
