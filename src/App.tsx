@@ -1,9 +1,18 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Update from '@/components/update'
 import './App.css'
 
 function App() {
-  const [version] = useState('v0.1.0-alpha')
+  const [version, setVersion] = useState('v0.1.3') // Fallback initial state
+
+  useEffect(() => {
+    // Fetch version from main process
+    if (window.ipcRenderer) {
+      window.ipcRenderer.invoke('get-app-version').then((ver) => {
+        if (ver) setVersion(`v${ver}`)
+      }).catch(err => console.error(err))
+    }
+  }, [])
 
   const handleMinimize = () => {
     window.ipcRenderer?.send('window-minimize')

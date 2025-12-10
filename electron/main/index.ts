@@ -163,3 +163,7 @@ ipcMain.on('window-maximize', () => {
   }
 })
 ipcMain.on('window-close', () => win?.close())
+
+ipcMain.handle('get-app-version', () => {
+  return app.getVersion()
+})
