@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YETI</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000; /* Fallback */
+            background: linear-gradient(45deg, #1a1a1a, #000000);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            user-select: none;
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            font-size: 6rem;
+            font-weight: 800;
+            letter-spacing: 0.5rem;
+            background: linear-gradient(to right, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: reveal 2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+        }
+        @keyframes reveal {
+            0% { transform: scale(0.9); opacity: 0; filter: blur(10px); }
+            100% { transform: scale(1); opacity: 1; filter: blur(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>YETI</h1>
+    </div>
+</body>
+</html>
