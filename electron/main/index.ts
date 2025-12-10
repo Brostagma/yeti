@@ -74,8 +74,8 @@ async function createWindow() {
       preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
       // but keeping it consistent with the template for now.
-      nodeIntegration: true,
-      contextIsolation: false,
+      nodeIntegration: false,
+      contextIsolation: true,
     },
   })
 
@@ -89,14 +89,14 @@ async function createWindow() {
   // Test actively push message to the Electron-Renderer
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', new Date().toLocaleString())
-    
+
     // Show main window after a delay to let splash animation finish
     setTimeout(() => {
-        if (splash) {
-            splash.close()
-        }
-        win?.show()
-        win?.focus()
+      if (splash) {
+        splash.close()
+      }
+      win?.show()
+      win?.focus()
     }, 2500)
   })
 
@@ -111,8 +111,8 @@ async function createWindow() {
 }
 
 app.whenReady().then(() => {
-    createSplashWindow()
-    createWindow()
+  createSplashWindow()
+  createWindow()
 })
 
 app.on('window-all-closed', () => {
@@ -156,10 +156,10 @@ ipcMain.handle('open-win', (_, arg) => {
 // Window Controls
 ipcMain.on('window-minimize', () => win?.minimize())
 ipcMain.on('window-maximize', () => {
-    if (win?.isMaximized()) {
-        win.unmaximize()
-    } else {
-        win?.maximize()
-    }
+  if (win?.isMaximized()) {
+    win.unmaximize()
+  } else {
+    win?.maximize()
+  }
 })
 ipcMain.on('window-close', () => win?.close())

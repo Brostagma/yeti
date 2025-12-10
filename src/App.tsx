@@ -5,16 +5,14 @@ function App() {
   const [version] = useState('v0.1.0-alpha')
 
   const handleMinimize = () => {
-    window.ipcRenderer.send('window-minimize')
+    window.ipcRenderer?.send('window-minimize')
   }
   const handleClose = () => {
-    window.ipcRenderer.send('window-close')
+    window.ipcRenderer?.send('window-close')
   }
 
   return (
-    <div className="h-screen w-screen bg-gray-950 text-white overflow-hidden flex flex-col relative border border-gray-800 rounded-lg shadow-2xl">
-      {/* Background Image/Effect */}
-      <div className="absolute inset-0 z-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center filter blur-sm transition-all duration-1000 hover:blur-none hover:opacity-30"></div>
+    <div className="h-full w-full bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-hidden flex flex-col relative border border-gray-800 rounded-lg shadow-2xl">
 
       {/* Custom Titlebar */}
       <div className="h-10 flex justify-between items-center px-4 z-50 bg-black/40 backdrop-blur-md draggable select-none border-b border-white/5">
