@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Update from '@/components/update'
 import './App.css'
 
 function App() {
@@ -42,6 +43,11 @@ function App() {
         <div className="absolute bottom-10 opacity-40 text-xs font-light tracking-[0.3em] uppercase">
           YARATICI EMİN
         </div>
+      </div>
+
+      {/* Auto Update Component */}
+      <div className="absolute bottom-4 right-4 z-50">
+        <Update />
       </div>
     </div>
   )

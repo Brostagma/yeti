@@ -48,6 +48,7 @@ const Update = () => {
         onOk: () => window.ipcRenderer.invoke('start-download'),
       }))
       setUpdateAvailable(true)
+      setModalOpen(true)
     } else {
       setUpdateAvailable(false)
     }
