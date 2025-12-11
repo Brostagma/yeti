@@ -1,12 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { AppRegistry, AppDefinition } from '@/core/registry/AppRegistry'
 
 const Dashboard = () => {
     const [activeApp, setActiveApp] = useState<string | null>(null)
+    const [apps, setApps] = useState<AppDefinition[]>([])
 
-    const apps = [
-        { id: 'filescanner', name: 'File Scanner', icon: '📂', description: 'Analyze directory structures' },
-        { id: 'settings', name: 'Settings', icon: '⚙️', description: 'System configuration' },
-    ]
+    useEffect(() => {
+        setApps(AppRegistry.getInstance().getApps())
+    }, [])
 
     return (
         <div className="flex flex-col h-full w-full bg-[#0a0a0a] text-white relative overflow-hidden">
