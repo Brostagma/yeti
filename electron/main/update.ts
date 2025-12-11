@@ -16,6 +16,10 @@ export function update(win: Electron.BrowserWindow) {
   autoUpdater.allowDowngrade = false
   autoUpdater.allowPrerelease = true
 
+  // ⚠️ IMPORTANT: Replace 'YOUR_GITHUB_TOKEN' with your actual Personal Access Token
+  // This token must have 'repo' scope to access private releases.
+  autoUpdater.requestHeaders = { "Authorization": "token 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" }
+
   // start check
   autoUpdater.on('checking-for-update', function () { })
   // update available

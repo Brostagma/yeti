@@ -1,72 +1,50 @@
-# YETI - Modern Desktop Application
+# Yeti Platformu
 
-![YETI Banner](https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1000&auto=format&fit=crop)
+**Yeti**, modern, modüler ve genişletilebilir bir masaüstü uygulama platformudur. Electron ve React (Next.js) teknolojileri üzerine inşa edilmiştir.
 
-**YETI** is a next-generation, dynamic desktop application built with **Electron** and **React**. It features a completely frameless, modern UI with advanced animations and a modular architecture designed for future scalability (including Python/LLM integration).
+## 🚀 Özellikler
 
-## 🚀 Features
+* **Modüler Mimari:** Gelecekte eklenecek farklı uygulamaları (File Scanner, Settings vb.) tek bir çatı altında toplar.
+* **Güvenli Giriş:** `admin` / `admin1234.!` varsayılan kimlik bilgileriyle korunan giriş ekranı.
+* **Otomatik Güncelleme:** GitHub Releases üzerinden kendini otomatik günceller.
+* **Lüks Arayüz:** Modern, karanlık ve premium tasarım dili.
+* **Dosya Tarayıcı (Yakında):** Büyük dosya sistemlerini analiz eden güçlü bir araç.
 
-* **Modern UI/UX:** Frameless window with custom titlebar and glassmorphism effects.
-* **Dynamic Architecture:** Built on Electron + Vite + React for maximum performance and flexibility.
-* **Splash Screen:** Elegant, animated startup experience.
-* **Auto-Update:** Integrated GitHub Releases support for seamless updates.
-* **Polyglot Ready:** Designed to support Python/C++ sidecars for heavy lifting.
+## 📥 İndirme ve Kurulum
 
-## 📥 Download & Install
+En son sürümü [Releases Sayfası](https://github.com/Brostagma/yeti/releases) üzerinden indirebilirsiniz.
 
-You can download the latest version of **YETI** from the [Releases Page](https://github.com/Brostagma/yeti/releases).
+1. **Releases** sayfasına gidin.
+2. En güncel sürümü seçin (örneğin `v0.1.4`).
+3. **`Yeti-Setup-x.x.x.exe`** dosyasını indirin.
+4. Kurulumu yapın ve uygulamayı başlatın.
 
-1. Go to the **Releases** page.
-2. Click on the latest version (e.g., `v0.1.0`).
-3. Download the **`Yeti-Setup-x.x.x.exe`** file.
-4. Run the installer and enjoy! 🚀
+## 🔑 Giriş Bilgileri
 
-## 🛠️ Tech Stack
+* **Kullanıcı Adı:** `admin`
+* **Şifre:** `admin1234.!`
 
-* **Core:** [Electron](https://www.electronjs.org/)
-* **Frontend:** [React](https://reactjs.org/) (Vite)
-* **Language:** [TypeScript](https://www.typescriptlang.org/)
-* **Styling:** [TailwindCSS](https://tailwindcss.com/)
-* **State Management:** React Hooks / Context (Scalable to Zustand/Redux)
+## 🛠️ Geliştirici Kurulumu
 
-## 📦 Installation
+Projeyi geliştirmek veya katkıda bulunmak isterseniz:
 
-1. Clone the repository:
+```bash
+# Repoyu klonlayın
+git clone https://github.com/Brostagma/yeti.git
 
-    ```bash
-    git clone https://github.com/Brostagma/yeti.git
-    cd yeti
-    ```
+# Bağımlılıkları yükleyin
+npm install
 
-2. Install dependencies:
+# Geliştirme sunucusunu başlatın
+npm run dev
 
-    ```bash
-    npm install
-    ```
+# Üretim sürümü oluşturun
+npm run build
+```
 
-3. Run in development mode:
+## 🏗️ Teknoloji Yığını
 
-    ```bash
-    npm run dev
-    ```
-
-4. Build for production:
-
-    ```bash
-    npm run build
-    ```
-
-## 🗺️ Roadmap
-
-See [guide.md](./guide.md) for the detailed development roadmap and architectural decisions.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
----
-*Created by [Yaratıcı Emin]*
+* **Core:** Electron
+* **UI:** React, TailwindCSS
+* **Language:** TypeScript
+* **Build:** Vite
