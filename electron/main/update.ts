@@ -14,6 +14,7 @@ export function update(win: Electron.BrowserWindow) {
   autoUpdater.autoDownload = false
   autoUpdater.disableWebInstaller = false
   autoUpdater.allowDowngrade = false
+  autoUpdater.allowPrerelease = true
 
   // start check
   autoUpdater.on('checking-for-update', function () { })
