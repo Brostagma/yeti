@@ -38,6 +38,7 @@
     "provider": "github",
     "owner": "Brostagma",
     "repo": "yeti",
-    "releaseType": "release"
+    "releaseType": "release",
+    "private": true
   }
 }
