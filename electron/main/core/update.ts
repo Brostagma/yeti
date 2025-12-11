@@ -26,6 +26,12 @@ export function update(win: Electron.BrowserWindow) {
 
   // ⚠️ IMPORTANT: Replace 'YOUR_GITHUB_TOKEN' with your actual Personal Access Token
   // This token must have 'repo' scope to access private releases.
+  autoUpdater.setFeedURL({
+    provider: 'github',
+    owner: 'Brostagma',
+    repo: 'yeti',
+    private: true
+  })
   autoUpdater.requestHeaders = { "Authorization": "token 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" }
 
   // start check
