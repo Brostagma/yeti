@@ -1,6 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "YourAppID",
+  "appId": "com.yeti.app",
+  "productName": "Yeti",
   "asar": true,
   "directories": {
     "output": "release/${version}"
@@ -36,6 +37,7 @@
   "publish": {
     "provider": "github",
     "owner": "Brostagma",
-    "repo": "yeti"
+    "repo": "yeti",
+    "private": true
   }
 }
