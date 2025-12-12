@@ -11,7 +11,15 @@ jobs:
     
     strategy:
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+        include:
+          - os: windows-latest
+            args: ""
+          - os: ubuntu-latest
+            args: ""
+          - os: macos-13
+            args: "--x64"
+          - os: macos-14
+            args: "--arm64"
 
     permissions:
       contents: write
@@ -46,4 +54,4 @@ jobs:
       - name: Build and Publish
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run publish
+        run: npm run publish -- ${{ matrix.args }}

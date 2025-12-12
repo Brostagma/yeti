@@ -1,7 +1,7 @@
 {
   "name": "yeti",
   "productName": "Yeti",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "main": "dist-electron/main/index.js",
   "description": "Modern Desktop Application",
   "author": "草鞋没号 <308487730@qq.com>",
