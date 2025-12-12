@@ -78,7 +78,7 @@ export function update(win: Electron.BrowserWindow) {
 
   // Install now
   ipcMain.handle('quit-and-install', () => {
-    autoUpdater.quitAndInstall(false, true)
+    autoUpdater.quitAndInstall(true, true)
   })
 
   if (app.isPackaged) {

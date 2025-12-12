@@ -2,7 +2,6 @@ import type { ProgressInfo } from 'electron-updater'
 import { useCallback, useEffect, useState } from 'react'
 import Modal from '@/components/update/Modal'
 import Progress from '@/components/update/Progress'
-import './update.css'
 
 const Update = () => {
   const [checking, setChecking] = useState(false)
@@ -23,28 +22,30 @@ const Update = () => {
 
   const checkUpdate = async () => {
     setChecking(true)
-    /**
-     * @type {import('electron-updater').UpdateCheckResult | null | { message: string, error: Error }}
-     */
     const result = await window.ipcRenderer.invoke('check-update')
     setProgressInfo({ percent: 0 })
     setChecking(false)
-    setModalOpen(true)
+
+    // Only open modal if there is an error or update available
     if (result?.error) {
       setUpdateAvailable(false)
       setUpdateError(result?.error)
+      setModalOpen(true)
+    } else if (result?.update === false) {
+      // Optional: Show "No update available" toast or small notification instead of full modal
+      // For now, we'll just log it or do nothing to be less intrusive
+      console.log('No update available')
     }
   }
 
   const onUpdateCanAvailable = useCallback((_event: Electron.IpcRendererEvent, arg1: VersionInfo) => {
     setVersionInfo(arg1)
     setUpdateError(undefined)
-    // Can be update
     if (arg1.update) {
       setModalBtn(state => ({
         ...state,
-        cancelText: 'Cancel',
-        okText: 'Update',
+        cancelText: 'Later',
+        okText: 'Update Now',
         onOk: () => window.ipcRenderer.invoke('start-download'),
       }))
       setUpdateAvailable(true)
@@ -57,6 +58,7 @@ const Update = () => {
   const onUpdateError = useCallback((_event: Electron.IpcRendererEvent, arg1: ErrorType) => {
     setUpdateAvailable(false)
     setUpdateError(arg1)
+    setModalOpen(true)
   }, [])
 
   const onDownloadProgress = useCallback((_event: Electron.IpcRendererEvent, arg1: ProgressInfo) => {
@@ -65,16 +67,11 @@ const Update = () => {
 
   const onUpdateDownloaded = useCallback((_event: Electron.IpcRendererEvent, ...args: any[]) => {
     setProgressInfo({ percent: 100 })
-    setModalBtn(state => ({
-      ...state,
-      cancelText: 'Later',
-      okText: 'Install now',
-      onOk: () => window.ipcRenderer.invoke('quit-and-install'),
-    }))
+    // Automatically install after download
+    window.ipcRenderer.invoke('quit-and-install')
   }, [])
 
   useEffect(() => {
-    // Get version information and whether to update
     window.ipcRenderer.on('update-can-available', onUpdateCanAvailable)
     window.ipcRenderer.on('update-error', onUpdateError)
     window.ipcRenderer.on('download-progress', onDownloadProgress)
@@ -96,39 +93,65 @@ const Update = () => {
         okText={modalBtn?.okText}
         onCancel={modalBtn?.onCancel}
         onOk={modalBtn?.onOk}
-        footer={updateAvailable ? /* hide footer */null : undefined}
+        footer={updateAvailable && !updateError ? null : undefined}
       >
-        <div className='modal-slot'>
-          {updateError
-            ? (
-              <div>
-                <p>Error downloading the latest version.</p>
-                <p>{updateError.message}</p>
+        <div className="space-y-4">
+          {updateError ? (
+            <div className="text-center">
+              <div className="text-red-500 text-xl mb-2">⚠️</div>
+              <h3 className="text-lg font-medium text-white">Update Failed</h3>
+              <p className="text-sm text-gray-400 mt-1">{updateError.message}</p>
+            </div>
+          ) : updateAvailable ? (
+            <div className="text-center">
+              <h3 className="text-lg font-medium text-white mb-1">New Version Available</h3>
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-400 mb-6">
+                <span className="bg-white/10 px-2 py-0.5 rounded text-xs">v{versionInfo?.version}</span>
+                <span>→</span>
+                <span className="bg-green-500/20 text-green-400 px-2 py-0.5 rounded text-xs font-bold">v{versionInfo?.newVersion}</span>
               </div>
-            ) : updateAvailable
-              ? (
-                <div>
-                  <div>The last version is: v{versionInfo?.newVersion}</div>
-                  <div className='new-version__target'>v{versionInfo?.version} -&gt; v{versionInfo?.newVersion}</div>
-                  <div className='update__progress'>
-                    <div className='progress__title'>Update progress:</div>
-                    <div className='progress__bar'>
-                      <Progress percent={progressInfo?.percent} ></Progress>
-                    </div>
-                  </div>
+
+              <div className="space-y-2">
+                <div className="flex justify-between text-xs text-gray-500 uppercase tracking-wider">
+                  <span>Downloading...</span>
+                  <span>{Math.round(progressInfo?.percent || 0)}%</span>
                 </div>
-              )
-              : (
-                <div className='can-not-available'>{JSON.stringify(versionInfo ?? {}, null, 2)}</div>
-              )}
+                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-amber-500 transition-all duration-300 ease-out"
+                    style={{ width: `${progressInfo?.percent || 0}%` }}
+                  />
+                </div>
+              </div>
+
+              <p className="text-xs text-gray-500 mt-4">
+                The application will restart automatically once the download is complete.
+              </p>
+            </div>
+          ) : (
+            <div className="text-center py-4">
+              <p className="text-gray-300">Checking for updates...</p>
+            </div>
+          )}
         </div>
       </Modal>
+
       <button
         disabled={checking}
         onClick={checkUpdate}
-        className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white px-3 py-1.5 rounded-md text-xs transition-all border border-white/5 hover:border-white/10 flex items-center gap-2"
       >
-        {checking ? 'Checking...' : 'Check for Updates'}
+        {checking ? (
+          <>
+            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+            Checking...
+          </>
+        ) : (
+          <>
+            <span className="text-amber-500">↻</span>
+            Check for Updates
+          </>
+        )}
       </button>
     </>
   )

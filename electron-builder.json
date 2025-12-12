@@ -50,23 +50,5 @@
     ],
     "artifactName": "Yeti-Setup-${version}.${ext}"
   },
-  "linux": {
-    "target": [
-      "AppImage",
-      "deb"
-    ],
-    "artifactName": "Yeti-${version}.${ext}"
-  },
-  "nsis": {
-    "oneClick": false,
-    "perMachine": false,
-    "allowToChangeInstallationDirectory": true,
-    "deleteAppDataOnUninstall": false
-  },
-  "publish": {
-    "provider": "github",
-    "owner": "Brostagma",
-    "repo": "yeti",
-    "releaseType": "release"
-  }
+  "linux": {}
 }
