@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, systemPreferences } from 'electron'
 import { spawn, ChildProcess } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
@@ -214,4 +214,15 @@ ipcMain.on('input-event', (_, eventData) => {
 
 ipcMain.handle('get-app-version', () => {
   return app.getVersion()
+})
+
+ipcMain.handle('check-media-access', async () => {
+  if (process.platform !== 'darwin') return true
+  const status = systemPreferences.getMediaAccessStatus('screen')
+  return status === 'granted'
+})
+
+ipcMain.handle('request-accessibility', async () => {
+  if (process.platform !== 'darwin') return true
+  return systemPreferences.isTrustedAccessibilityClient(true)
 })
