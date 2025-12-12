@@ -51,7 +51,10 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Build and Publish
+      - name: Build Frontend
+        run: npm run build
+
+      - name: Build and Publish Electron App
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run publish -- ${{ matrix.args }}
+        run: npx electron-builder --publish always ${{ matrix.args }}
