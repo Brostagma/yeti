@@ -28,6 +28,12 @@ jobs:
           
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Linux Dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxdo-dev libxtst-dev libx11-dev
         
       - name: Build Rust Sidecar
         run: |
