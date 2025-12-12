@@ -13,13 +13,13 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            args: ""
+            args: "--win --x64"
           - os: ubuntu-latest
-            args: ""
+            args: "--linux"
           - os: macos-13
-            args: "--x64"
+            args: "--mac --x64"
           - os: macos-14
-            args: "--arm64"
+            args: "--mac --arm64"
 
     permissions:
       contents: write

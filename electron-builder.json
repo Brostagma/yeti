@@ -50,5 +50,11 @@
     ],
     "artifactName": "Yeti-Setup-${version}.${ext}"
   },
-  "linux": {}
+  "linux": {
+    "target": [
+      "AppImage",
+      "deb"
+    ],
+    "artifactName": "Yeti-${version}.${ext}"
+  }
 }
