@@ -38,6 +38,13 @@
     ],
     "artifactName": "Yeti-Setup-${version}.${ext}"
   },
+  "linux": {
+    "target": [
+      "AppImage",
+      "deb"
+    ],
+    "artifactName": "Yeti-${version}.${ext}"
+  },
   "nsis": {
     "oneClick": false,
     "perMachine": false,
