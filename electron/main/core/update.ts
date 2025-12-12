@@ -29,10 +29,8 @@ export function update(win: Electron.BrowserWindow) {
   autoUpdater.setFeedURL({
     provider: 'github',
     owner: 'Brostagma',
-    repo: 'yeti',
-    private: true
+    repo: 'yeti'
   })
-  autoUpdater.requestHeaders = { "Authorization": "token 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" }
 
   // start check
   autoUpdater.on('checking-for-update', function () { })

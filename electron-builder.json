@@ -10,6 +10,16 @@
     "dist-electron",
     "dist"
   ],
+  "extraResources": [
+    {
+      "from": "tools/input-server/target/release",
+      "to": ".",
+      "filter": [
+        "input-server",
+        "input-server.exe"
+      ]
+    }
+  ],
   "mac": {
     "artifactName": "Yeti-Setup-${version}.${ext}",
     "target": [
@@ -38,7 +48,6 @@
     "provider": "github",
     "owner": "Brostagma",
     "repo": "yeti",
-    "releaseType": "release",
-    "private": true
+    "releaseType": "release"
   }
 }

@@ -1,4 +1,5 @@
 import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { spawn, ChildProcess } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -31,6 +32,38 @@ if (!app.requestSingleInstanceLock()) {
 
 let win: BrowserWindow | null = null
 let splash: BrowserWindow | null = null
+let inputServer: ChildProcess | null = null
+
+function startInputServer() {
+  const isDev = !!process.env.VITE_DEV_SERVER_URL
+  const exeName = process.platform === 'win32' ? 'input-server.exe' : 'input-server'
+
+  let serverPath = ''
+  if (isDev) {
+    serverPath = path.join(process.env.APP_ROOT, 'tools/input-server/target/release', exeName)
+  } else {
+    serverPath = path.join(process.resourcesPath, exeName)
+  }
+
+  console.log('Starting input server at:', serverPath)
+
+  try {
+    inputServer = spawn(serverPath, [], {
+      stdio: ['pipe', 'inherit', 'inherit']
+    })
+
+    inputServer.on('error', (err) => {
+      console.error('Failed to start input server:', err)
+    })
+
+    inputServer.on('exit', (code, signal) => {
+      console.log(`Input server exited with code ${code} and signal ${signal}`)
+      inputServer = null
+    })
+  } catch (error) {
+    console.error('Error spawning input server:', error)
+  }
+}
 
 const preload = path.join(__dirname, '../preload/index.mjs')
 const indexHtml = path.join(RENDERER_DIST, 'index.html')
@@ -113,6 +146,13 @@ async function createWindow() {
 app.whenReady().then(() => {
   createSplashWindow()
   createWindow()
+  startInputServer()
+})
+
+app.on('will-quit', () => {
+  if (inputServer) {
+    inputServer.kill()
+  }
 })
 
 app.on('window-all-closed', () => {
@@ -163,6 +203,14 @@ ipcMain.on('window-maximize', () => {
   }
 })
 ipcMain.on('window-close', () => win?.close())
+
+// Input Control IPC
+ipcMain.on('input-event', (_, eventData) => {
+  if (inputServer && inputServer.stdin) {
+    const json = JSON.stringify(eventData) + '\n'
+    inputServer.stdin.write(json)
+  }
+})
 
 ipcMain.handle('get-app-version', () => {
   return app.getVersion()

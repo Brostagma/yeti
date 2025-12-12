@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react'
 import { AppRegistry, AppDefinition } from '@/core/registry/AppRegistry'
 
-const Dashboard = () => {
+interface DashboardProps {
+    onLaunchApp: (appId: string) => void;
+}
+
+const Dashboard = ({ onLaunchApp }: DashboardProps) => {
     const [activeApp, setActiveApp] = useState<string | null>(null)
     const [apps, setApps] = useState<AppDefinition[]>([])
 
@@ -30,7 +34,7 @@ const Dashboard = () => {
                     {apps.map((app) => (
                         <div
                             key={app.id}
-                            onClick={() => setActiveApp(app.id)}
+                            onClick={() => onLaunchApp(app.id)}
                             className="group relative p-6 bg-white/5 border border-white/5 rounded-xl hover:bg-white/10 hover:border-amber-500/30 transition-all duration-300 cursor-pointer"
                         >
                             <div className="absolute inset-0 bg-gradient-to-br from-amber-500/0 to-amber-500/0 group-hover:from-amber-500/5 group-hover:to-transparent rounded-xl transition-all duration-500"></div>

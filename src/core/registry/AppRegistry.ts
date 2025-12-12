@@ -21,6 +21,12 @@ export class AppRegistry {
             icon: '⚙️',
             description: 'System configuration'
         });
+        this.registerApp({
+            id: 'remote',
+            name: 'Remote Desktop',
+            icon: '🖥️',
+            description: 'Connect to other devices'
+        });
     }
 
     public static getInstance(): AppRegistry {

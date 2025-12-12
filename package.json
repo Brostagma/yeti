@@ -1,7 +1,7 @@
 {
   "name": "yeti",
   "productName": "Yeti",
-  "version": "0.1.9",
+  "version": "0.2.1",
   "main": "dist-electron/main/index.js",
   "description": "Modern Desktop Application",
   "author": "草鞋没号 <308487730@qq.com>",
@@ -26,7 +26,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "electron-updater": "^6.3.9"
+    "electron-updater": "^6.3.9",
+    "peerjs": "^1.5.5"
   },
   "devDependencies": {
     "@playwright/test": "^1.48.2",

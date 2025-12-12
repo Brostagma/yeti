@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import Update from '@/components/update'
 import Login from '@/pages/Login'
 import Dashboard from '@/pages/Dashboard'
+import Remote from '@/pages/Remote'
 import { AuthService } from '@/core/auth/AuthService'
-import './App.css'
+import './styles/App.css'
 
 function App() {
   const [version, setVersion] = useState('v0.1.3')
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [currentPage, setCurrentPage] = useState('dashboard')
 
   useEffect(() => {
     // Fetch version from main process
@@ -29,6 +31,10 @@ function App() {
     setIsAuthenticated(true)
   }
 
+  const handleLaunchApp = (appId: string) => {
+    setCurrentPage(appId)
+  }
+
   return (
     <div className="h-full w-full bg-[#0a0a0a] text-gray-200 overflow-hidden flex flex-col relative border border-white/5 rounded-lg shadow-2xl font-sans selection:bg-amber-500/30">
 
@@ -47,7 +53,13 @@ function App() {
       {/* Main Content Area */}
       <div className="flex-1 mt-8 h-[calc(100%-2rem)]">
         {isAuthenticated ? (
-          <Dashboard />
+          currentPage === 'dashboard' ? (
+            <Dashboard onLaunchApp={handleLaunchApp} />
+          ) : currentPage === 'remote' ? (
+            <Remote />
+          ) : (
+            <Dashboard onLaunchApp={handleLaunchApp} />
+          )
         ) : (
           <Login onLogin={handleLogin} />
         )}

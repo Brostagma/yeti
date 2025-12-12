@@ -7,7 +7,11 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
 
     permissions:
       contents: write
@@ -21,6 +25,14 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+          
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        
+      - name: Build Rust Sidecar
+        run: |
+          cd tools/input-server
+          cargo build --release
 
       - name: Install Dependencies
         run: npm install
