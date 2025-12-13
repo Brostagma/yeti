@@ -17,24 +17,33 @@ const Update = () => {
     onOk?: () => void
   }>({
     onCancel: () => setModalOpen(false),
-    onOk: () => window.ipcRenderer.invoke('start-download'),
+    onOk: async () => {
+      try {
+        await window.ipcRenderer.invoke('start-download')
+      } catch (error: any) {
+        setUpdateError({ message: error?.message || 'Failed to start download', error })
+      }
+    },
   })
 
   const checkUpdate = async () => {
     setChecking(true)
-    const result = await window.ipcRenderer.invoke('check-update')
-    setProgressInfo({ percent: 0 })
-    setChecking(false)
+    try {
+      const result = await window.ipcRenderer.invoke('check-update')
+      setProgressInfo({ percent: 0 })
 
-    // Only open modal if there is an error or update available
-    if (result?.error) {
+      // Only open modal if there is an error or update available
+      if (result?.error) {
+        setUpdateAvailable(false)
+        setUpdateError(result?.error)
+        setModalOpen(true)
+      }
+    } catch (error: any) {
       setUpdateAvailable(false)
-      setUpdateError(result?.error)
+      setUpdateError({ message: error?.message || 'Failed to check for updates', error })
       setModalOpen(true)
-    } else if (result?.update === false) {
-      // Optional: Show "No update available" toast or small notification instead of full modal
-      // For now, we'll just log it or do nothing to be less intrusive
-      console.log('No update available')
+    } finally {
+      setChecking(false)
     }
   }
 
@@ -67,8 +76,18 @@ const Update = () => {
 
   const onUpdateDownloaded = useCallback((_event: Electron.IpcRendererEvent, ...args: any[]) => {
     setProgressInfo({ percent: 100 })
-    // Automatically install after download
-    window.ipcRenderer.invoke('quit-and-install')
+    setModalBtn(state => ({
+      ...state,
+      cancelText: 'Later',
+      okText: 'Restart Now',
+      onOk: async () => {
+        try {
+          await window.ipcRenderer.invoke('quit-and-install')
+        } catch (error: any) {
+          setUpdateError({ message: error?.message || 'Failed to restart', error })
+        }
+      },
+    }))
   }, [])
 
   useEffect(() => {
@@ -125,7 +144,7 @@ const Update = () => {
               </div>
 
               <p className="text-xs text-gray-500 mt-4">
-                The application will restart automatically once the download is complete.
+                Download complete. Restart to apply changes.
               </p>
             </div>
           ) : (

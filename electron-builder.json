@@ -21,7 +21,7 @@
     }
   ],
   "mac": {
-    "artifactName": "Yeti-Setup-${version}-${arch}.${ext}",
+    "artifactName": "Yeti-${version}-${arch}.${ext}",
     "target": [
       {
         "target": "dmg",
